@@ -2,3 +2,4 @@
 .vscode
 example/output/
 *.egg-info/
+**/__pycache__/
