@@ -1,5 +1,7 @@
 # Inkblot
 
+**Note: This is a super early prototype might-not-have-time-energy-to-finish-it project.  Probably don't use it.**
+
 Generate your static site.
 
 ## Roadmap
