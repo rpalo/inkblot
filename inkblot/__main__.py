@@ -1,7 +1,7 @@
 import pathlib
 import sys
 
-from inkblot import generate
+from inkblot.inkblot import generate
 
 
 def main():
