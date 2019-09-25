@@ -1,3 +1,8 @@
+---
+layout: main
+title: Another post!
+---
+
 # Another post!
 
 Hey all

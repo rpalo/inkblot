@@ -1,20 +1,50 @@
-import markdown
-
-
 class Document:
-    def __init__(self, path, md=None):
-        self.path = path
-        if md is None:
-            self.converter = markdown.Markdown()
+    def __init__(self, path, base=None, md=None):
+        content = path.read_text()
+        self.attributes = self.parse(content)
+        if base is not None:
+            self.path = path.relative_to(base)
         else:
-            self.converter = md
+            self.path = path
+
+        self.suffix = self.path.suffix
 
     def __repr__(self):
-        return f"Document(path={self.path})"
+        return f"Document(path={self.path}, attributes={self.attributes})"
 
-    @property
-    def content(self):
-        return self.path.read_text()
+    def __getattr__(self, name):
+        if name in self.attributes:
+            return self.attributes[name]
+        else:
+            raise AttributeError(f"{self} has no attribute {name}")
 
-    def render(self):
-        return self.converter.convert(self.content)
+    @staticmethod
+    def parse(text):
+        header = "BEFORE"
+        attributes = {}
+        body = []
+
+        if not text.startswith("---"):
+            header = "AFTER"
+
+        for line in text.splitlines():
+            if line.startswith("---") and header == "BEFORE":
+                header = "INSIDE"
+                continue
+            if line.startswith("---") and header == "INSIDE":
+                header = "AFTER"
+                continue
+
+            if header == "INSIDE":
+                key, value = [item.strip() for item in line.split(":")]
+                if value.isdecimal():
+                    value = int(value)
+                attributes[key] = value
+                continue
+
+            if header == "AFTER":
+                body.append(line)
+                continue
+
+        attributes["body"] = "\n".join(body)
+        return attributes
