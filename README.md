@@ -17,3 +17,40 @@ Generate your static site.
 ## Ideas
 
 - @register converters to filetypes?
+
+## Contributing
+
+It's early yet, but I'd love contributers!
+
+1. Clone and enter the repo.
+
+```bash
+git clone git@github.com:rpalo/inkblot.git
+cd inkblot
+```
+
+2. Create a virtual environment and activate it (activation must be done every time before working on it).
+
+```bash
+python3 -m venv .venv
+
+# In Bash
+source .venv/bin/activate
+# PowerShell
+.venv/Scripts/activate
+```
+
+3. Install dependencies.
+
+```bash
+pip install -r requirements.txt
+pip install -e .
+```
+
+And you're ready to go.  To test things out on the example directory, run:
+
+```bash
+inkblot example/src
+```
+
+It should build and be amazing.
