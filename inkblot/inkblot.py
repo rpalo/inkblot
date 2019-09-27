@@ -22,9 +22,9 @@ def generate(directory: pathlib.Path):
     ):
         doc = Document(f, base=directory)
         if any(part.startswith("_") for part in doc.path.parts):
-            supports[str(doc.path)] = doc
+            supports[doc.path.as_posix()] = doc
         else:
-            outputs[str(doc.path)] = doc
+            outputs[doc.path.as_posix()] = doc
 
     support_loader = DocumentLoader(supports)
     output_loader = DocumentLoader(outputs)

@@ -25,6 +25,6 @@ def md_to_html(doc: document.Document, md=None):
 
 
 def jinjafy(doc: document.Document, env):
-    template = env.get_template(str(doc.path))
+    template = env.get_template(doc.path.as_posix())
     doc.body = template.render(doc.attributes)
     return doc
