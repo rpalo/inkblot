@@ -11,16 +11,17 @@ from inkblot.document import Document
 from inkblot.document_loader import DocumentLoader
 
 
-def generate(directory: pathlib.Path):
+def generate(directory: pathlib.Path, config):
     md = markdown.Markdown()
     outputs = {}
     supports = {}
+    source_dir = directory / config["source_dir"]
 
     target_suffixes = ["md", "html"]
     for f in chain.from_iterable(
-        directory.rglob(f"*.{suff}") for suff in target_suffixes
+        source_dir.rglob(f"*.{suff}") for suff in target_suffixes
     ):
-        doc = Document(f, base=directory)
+        doc = Document(f, base=source_dir)
         if any(part.startswith("_") for part in doc.path.parts):
             supports[doc.path.as_posix()] = doc
         else:
@@ -34,7 +35,7 @@ def generate(directory: pathlib.Path):
         loader=loader, autoescape=jinja2.select_autoescape(["html", "xml"])
     )
 
-    output_path = directory.parent / "output"
+    output_path = directory / config["build_dir"]
     if output_path.exists():
         shutil.rmtree(output_path)
     output_path.mkdir()
