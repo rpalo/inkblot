@@ -12,7 +12,7 @@ Generate your static site.
   4. ~~Config~~
   5. ~~Styling/Sass~~
   6. ~~Static files/images?~~
-  7. CLI
+  7. ~~CLI~~
   8. Object model?  Like specify "things" with fields that have default pages/display styles?
   9. Extend that to Posts and Tags at least as the basic "things" supported out of the box.
   10. Plugins
@@ -24,6 +24,7 @@ Generate your static site.
 - Configure sass/scss output style in config?
 - Figure out how to do relative pathing for includes?
 - There's room for more fancy static file specification (specific files or directories or patterns), but right now, it works by any non-recognized file extension being considered a static file.  And at least now it handles binary files smoothly as well.
+- The development server needs to be a *lot* better.  More responsive closing, auto-reloading, etc.
 
 ## Contributing
 
