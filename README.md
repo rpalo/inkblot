@@ -24,7 +24,7 @@ Generate your static site.
 - Configure sass/scss output style in config?
 - Figure out how to do relative pathing for includes?
 - There's room for more fancy static file specification (specific files or directories or patterns), but right now, it works by any non-recognized file extension being considered a static file.  And at least now it handles binary files smoothly as well.
-- The development server needs to be a *lot* better.  More responsive closing, auto-reloading, etc.
+- Dev server doesn't reload/find newly created files?
 
 ## Contributing
 

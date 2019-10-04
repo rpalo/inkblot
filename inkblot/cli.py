@@ -1,10 +1,9 @@
 """The CLI Interface for inkblot."""
 
 import argparse
-from functools import partial
-import http.server
 import pathlib
-import socketserver
+
+from livereload import Server, shell
 
 from inkblot import config
 from inkblot.inkblot import generate
@@ -27,11 +26,12 @@ def serve(args):
         user_config = config.DEFAULT_CONFIG
 
     serve_dir = project_dir / user_config["build_dir"]
+    watch_dir = project_dir / user_config["source_dir"]
 
-    Handler = partial(http.server.SimpleHTTPRequestHandler, directory=str(serve_dir))
-    with socketserver.TCPServer(("", args.port), Handler) as httpd:
-        print("Now serving at port", args.port)
-        httpd.serve_forever()
+    server = Server()
+    server.watch(watch_dir, shell(f"inkblot build {project_dir}"))
+    server.serve(root=serve_dir, port=args.port, open_url_delay=0.5)
+    
 
 
 def run():
