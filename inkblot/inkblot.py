@@ -48,10 +48,14 @@ def generate(directory: pathlib.Path, config):
 
     config["conversions"].update(config["extra_conversions"])
     for doc in outputs.values():
-        for name in config["conversions"][doc.suffix]:
+        for name in config["conversions"].get(doc.suffix, []):
             converters.conversions[name](doc)
 
         path = output_path / doc.path.with_suffix(doc.suffix)
         if not path.parent.exists():
             path.parent.mkdir(parents=True)
-        path.write_text(doc.body)
+
+        if doc.attributes.get("binary", False):
+            path.write_bytes(doc.body)
+        else:
+            path.write_text(doc.body)

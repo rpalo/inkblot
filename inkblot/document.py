@@ -1,7 +1,14 @@
 class Document:
     def __init__(self, path, base=None, md=None):
-        content = path.read_text()
-        self.attributes = self.parse(content)
+        self.attributes = {}
+        try:
+            content = path.read_text()
+        except UnicodeDecodeError:
+            self.attributes["body"] = path.read_bytes()
+            self.attributes["binary"] = True
+        else:
+            self.attributes = self.parse(content)
+
         if base is not None:
             self.path = path.relative_to(base)
         else:
