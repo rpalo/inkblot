@@ -58,7 +58,7 @@ pip install -e .
 And you're ready to go.  To test things out on the example directory, run:
 
 ```bash
-inkblot example/src
+inkblot build -d example
 ```
 
 It should build and be amazing.
