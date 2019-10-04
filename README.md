@@ -16,7 +16,7 @@ Generate your static site.
 
 ## Ideas
 
-- @register converters to filetypes?
+- Configure sass/scss output style in config?
 
 ## Contributing
 

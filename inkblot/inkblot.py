@@ -17,10 +17,7 @@ def generate(directory: pathlib.Path, config):
     supports = {}
     source_dir = directory / config["source_dir"]
 
-    target_suffixes = ["md", "html"]
-    for f in chain.from_iterable(
-        source_dir.rglob(f"*.{suff}") for suff in target_suffixes
-    ):
+    for f in source_dir.rglob(f"*.*"):
         doc = Document(f, base=source_dir)
         if any(part.startswith("_") for part in doc.path.parts):
             supports[doc.path.as_posix()] = doc
@@ -35,17 +32,24 @@ def generate(directory: pathlib.Path, config):
         loader=loader, autoescape=jinja2.select_autoescape(["html", "xml"])
     )
 
+    @converters.converter
+    def jinjafy(doc):
+        template = env.get_template(doc.path.as_posix())
+        try:
+            doc.body = template.render(doc.attributes)
+        except jinja2.exceptions.TemplateAssertionError:
+            print("FAILED:\n\n" + doc.body)
+        return doc
+
     output_path = directory / config["build_dir"]
     if output_path.exists():
         shutil.rmtree(output_path)
     output_path.mkdir()
 
+    config["conversions"].update(config["extra_conversions"])
     for doc in outputs.values():
-        if doc.suffix == ".md":
-            converters.md_to_html(doc)
-        if "layout" in doc.attributes:
-            converters.add_layout(doc)
-        converters.jinjafy(doc, env=env)
+        for name in config["conversions"][doc.suffix]:
+            converters.conversions[name](doc)
 
         path = output_path / doc.path.with_suffix(doc.suffix)
         if not path.parent.exists():

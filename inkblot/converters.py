@@ -8,14 +8,14 @@ from markdown import Markdown
 from inkblot import document
 
 
-def add_layout(doc: document.Document):
-    if "layout" not in doc.attributes:
-        raise ValueError("No layout in frontmatter.")
-    doc.body = '{% extends "_layouts/' + doc.layout + '.html" %}\n' + doc.body
-    return doc
+conversions = dict()
 
+def converter(func):
+    conversions[func.__name__] = func
+    return func
 
-def md_to_html(doc: document.Document, md=None):
+@converter
+def md_to_html(doc: document.Document, md=None) -> document.Document:
     md = md or Markdown()
     doc.body = (
         "{% block content %}\n" + md.convert(doc.body) + "{% endblock content %}\n"
@@ -24,7 +24,16 @@ def md_to_html(doc: document.Document, md=None):
     return doc
 
 
-def jinjafy(doc: document.Document, env):
-    template = env.get_template(doc.path.as_posix())
-    doc.body = template.render(doc.attributes)
+@converter
+def add_layout(doc: document.Document) -> document.Document:
+    if "layout" not in doc.attributes:
+        return doc
+    doc.body = '{% extends "_layouts/' + doc.layout + '.html" %}\n' + doc.body
     return doc
+
+
+# @converter
+# def jinjafy(doc: document.Document, env) -> document.Document:
+#     template = env.get_template(doc.path.as_posix())
+#     doc.body = template.render(doc.attributes)
+#     return doc
