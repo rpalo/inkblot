@@ -12,7 +12,12 @@ Generate your static site.
   4. ~~Config~~
   5. ~~Styling/Sass~~
   6. Static files/images?
-  7. Enable auto-reloading by keeping track of modification time
+  7. CLI
+  8. Object model?  Like specify "things" with fields that have default pages/display styles?
+  9. Extend that to Posts and Tags at least as the basic "things" supported out of the box.
+  10. Plugins
+  11. Moar Configuration.
+  12. Enable auto-reloading by keeping track of modification time
 
 ## Ideas
 
