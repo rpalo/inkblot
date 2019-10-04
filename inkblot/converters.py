@@ -4,6 +4,7 @@ They are just functions that accept a Document and return a modified Document.
 """
 
 from markdown import Markdown
+import sass
 
 from inkblot import document
 
@@ -37,3 +38,10 @@ def add_layout(doc: document.Document) -> document.Document:
 #     template = env.get_template(doc.path.as_posix())
 #     doc.body = template.render(doc.attributes)
 #     return doc
+
+
+@converter
+def compile_sass(doc: document.Document) -> document.Document:
+    doc.body = sass.compile(string=doc.body, indented=True)
+    doc.suffix = ".css"
+    return doc

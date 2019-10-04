@@ -3,6 +3,8 @@ layout: main
 title: Another post!
 ---
 
+<link rel="stylesheet" href="css/goober.css">
+
 # Another post!
 
 Hey all

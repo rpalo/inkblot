@@ -10,13 +10,14 @@ Generate your static site.
   2. ~~Layouts~~
   3. ~~Includes/underscore files~~
   4. ~~Config~~
-  5. Styling/Sass
+  5. ~~Styling/Sass~~
   6. Static files/images?
   7. Enable auto-reloading by keeping track of modification time
 
 ## Ideas
 
 - Configure sass/scss output style in config?
+- Figure out how to do relative pathing for includes?
 
 ## Contributing
 
